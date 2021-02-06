@@ -13,8 +13,360 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
-  <widget class="QMenuBar" name="menubar"/>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QStackedWidget" name="stackedWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>800</width>
+      <height>580</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="currentIndex">
+     <number>1</number>
+    </property>
+    <widget class="QWidget" name="pageMenu">
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <widget class="QSplitter" name="splitter">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>210</y>
+        <width>301</width>
+        <height>311</height>
+       </rect>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <widget class="QPushButton" name="btnPunto1">
+       <property name="text">
+        <string>Generar disparos ofensivos</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btnPunto2">
+       <property name="text">
+        <string>Generar disparos defensivos</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btnPunto3">
+       <property name="text">
+        <string>Simular defensa protegiendo posicion ofensiva</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btnPunto4">
+       <property name="text">
+        <string>Simular defensa sin proteger posicion ofensiva</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btnPunto5">
+       <property name="text">
+        <string>Simular neutralizacion de defensa</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QSplitter" name="splitter_2">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>30</y>
+        <width>241</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <widget class="QLabel" name="label">
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Distancia entre cañones</string>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="inputDistancia">
+       <property name="decimals">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <double>50.000000000000000</double>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QSplitter" name="splitter_3">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>30</y>
+        <width>221</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <widget class="QLabel" name="label_2">
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Altura cañon ofensivo</string>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="inputHo">
+       <property name="decimals">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <double>50.000000000000000</double>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QSplitter" name="splitter_4">
+      <property name="geometry">
+       <rect>
+        <x>524</x>
+        <y>30</y>
+        <width>231</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <widget class="QLabel" name="label_3">
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Altura cañon defensivo</string>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="inputHd">
+       <property name="decimals">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <double>50.000000000000000</double>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QLabel" name="label_4">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>90</y>
+        <width>251</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Velocidad Inicial Disparo Ofensivo</string>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="inputVelocidadOfe">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>90</y>
+        <width>49</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="decimals">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <double>2000.000000000000000</double>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_5">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>90</y>
+        <width>231</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Angulo Inicial Disparo Ofensivo</string>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="inputAnguloOfe">
+      <property name="geometry">
+       <rect>
+        <x>610</x>
+        <y>90</y>
+        <width>49</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="decimals">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <double>90.000000000000000</double>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="inputAnguloDef">
+      <property name="geometry">
+       <rect>
+        <x>610</x>
+        <y>140</y>
+        <width>49</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="decimals">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <double>90.000000000000000</double>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_6">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>140</y>
+        <width>231</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Angulo Inicial Disparo Defensivo</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_7">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>140</y>
+        <width>251</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Velocidad Inicial Disparo Defensivo</string>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="inputVelocidadDef">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>140</y>
+        <width>49</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="decimals">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <double>2000.000000000000000</double>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="pageSimulator">
+     <widget class="QGraphicsView" name="gvSimulacion">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>800</width>
+        <height>580</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnVolver">
+      <property name="geometry">
+       <rect>
+        <x>710</x>
+        <y>540</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Volver</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="lblSimula1">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>30</y>
+        <width>751</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="lblSimula2">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>50</y>
+        <width>751</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="lblSimula3">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>70</y>
+        <width>751</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+  </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
