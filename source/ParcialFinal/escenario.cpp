@@ -10,42 +10,78 @@ Escenario::Escenario(double dist)
 {
     distancia = dist;
     c_ofensivo =  Mortero();
-    c_defensivo = Mortero(distancia, 0);
+    c_defensivo = Mortero(distancia, 0, 1);
     anguloToDefensivo = 0;
     anguloToOfensivo = 0;
+    //lineaVista = distancia;
 }
 
 Escenario::Escenario(double dist, double alt_ofensivo, double alt_defensivo) {
     distancia = dist;
-    c_ofensivo = Mortero(0, alt_ofensivo);
-    c_defensivo = Mortero(distancia, alt_defensivo);
+    c_ofensivo = Mortero(0, alt_ofensivo, 2);
+    c_defensivo = Mortero(distancia, alt_defensivo, 1);
     anguloToDefensivo = atan((c_defensivo.posicionY-c_ofensivo.posicionY)/distancia)*(180/pi);
     anguloToOfensivo = atan((c_ofensivo.posicionY-c_defensivo.posicionY)/distancia)*(180/pi);
+    //lineaVista = pow((pow((c_defensivo.posicionY-c_ofensivo.posicionY),2))+(pow((c_defensivo.posicionX-c_ofensivo.posicionX),2)),0.5);
+    //cout << "Escenario configurado" << endl;
 }
 
-void Escenario::simular1()
+QList<QList<double>> Escenario::simular1()
 {
     c_ofensivo.armarMortero(0.05*distancia);
-    c_ofensivo.simularDisparo(&c_defensivo);
+    return c_ofensivo.simularDisparo(&c_defensivo);
 }
 
-void Escenario::simular2()
+QList<QList<double>> Escenario::simular2()
 {
     c_defensivo.armarMortero(0.025*distancia);
-    c_defensivo.simularDisparo(&c_ofensivo);
+    return c_defensivo.simularDisparo(&c_ofensivo);
 }
 
-void Escenario::simularDefensivos(bool protegerOfensivo)
+QList<QList<double>>  Escenario::simular34(bool proteger, double inputVo, double inputAo)
 {
+    QList<QList<double>> respuesta;
+    QList<double> simulacion;
+    double delayDefensivo=2;
+    double tiempoOfensivoEfectivo;
+//    cout << endl << "Por favor ingrese los parametros de configuracion de disparo ofensivo" << endl;
+//    cout << "Indique la velocidad inicial (m/s) del disparo: ";
+//    cin >> inputVo;
+//    cout << "Indique el angulo en grados del disparo: ";
+//    cin >> inputAo;
+    c_ofensivo.armarMortero(0.05*distancia);
+    c_ofensivo.setVelocidadDisparo(inputVo);
+    c_ofensivo.setAnguloDisparo(inputAo);
+    tiempoOfensivoEfectivo = c_ofensivo.validarDisparo(&c_defensivo);
+    if (tiempoOfensivoEfectivo > 0) { // Si puede hacer daño
+        if (tiempoOfensivoEfectivo < delayDefensivo) { // Tiempo de informante
+            simulacion.append(-99);
+            respuesta.append(simulacion);
+            return respuesta;
+            //cout << "No es posible defenderse de un ataque con esos parametros, la informacion de inteligencia no llega a tiempo." << endl;
+        } else {
+            //Se arma al cañon defensivo
+            c_defensivo.armarMortero(0.025*distancia);
+            return c_defensivo.validarInterseccion(&c_ofensivo, delayDefensivo, tiempoOfensivoEfectivo, proteger);
+        }
+    }
+}
+
+QList<QList<double>> Escenario::simularDefensivos(double velocidad, double angulo, bool protegerOfensivo)
+{
+    QList<QList<double>> respuesta;
+    QList<double> simulacion;
     double Voo, angO, tiempoOfensivo, tiempoOfensivoEfectivo;
     double posicionXDefensivo, posicionYDefensivo, tiempoDefensivo;
     bool flag = false;
     int count=0, anguloSemilla;
-    cout << endl << "Por favor ingrese los parametros de configuracion de disparo ofensivo" << endl;
-    cout << "Indique la velocidad inicial (m/s) del disparo: ";
-    cin >> Voo;
-    cout << "Indique el angulo en grados del disparo: ";
-    cin >> angO;
+//    cout << endl << "Por favor ingrese los parametros de configuracion de disparo ofensivo" << endl;
+//    cout << "Indique la velocidad inicial (m/s) del disparo: ";
+//    cin >> Voo;
+//    cout << "Indique el angulo en grados del disparo: ";
+//    cin >> angO;
+    Voo=velocidad;
+    angO=angulo;
     Bala ofensiva = Bala(c_ofensivo.posicionX, c_ofensivo.posicionY, 0.05*distancia, Voo, angO);
     // Lo primero es saber si el disparo ofensivo con esos parametros puede hacer daño, se itera en tiempo para averiguarlo.
     for (tiempo=0.1; ; tiempo+=0.01) {
@@ -64,6 +100,7 @@ void Escenario::simularDefensivos(bool protegerOfensivo)
     if (flag) { // Si puede hacer daño
         //Se verifica si hay tiempo de reaccionar al ataque
         if (tiempo<=2) {
+            simulacion.append(-91);
             cout << "No es posible defenderse de un ataque con esos parametros, la informacion de inteligencia no llega a tiempo." << endl;
         } else {
             // Se crea la bala defensiva
@@ -78,6 +115,7 @@ void Escenario::simularDefensivos(bool protegerOfensivo)
             cout << "se puede evitar el ataque con las siguientes opciones:" << endl << endl;
             //Se itera en 3 angulos a partir de la semilla
             for (int i=anguloSemilla; count<3; i+=5) {
+                simulacion.clear();
                 flag = false;
                 defensiva.anguloInicial = 180 - i;
                 //Se itera en velocidad inicial
@@ -127,9 +165,15 @@ void Escenario::simularDefensivos(bool protegerOfensivo)
                     }
                     // Si ya se encontro resultado se deja de iterar en velocidad.
                     if (flag) {
+                        simulacion.append(i);//Angulo
+                        simulacion.append(v); //Velocidad Inicial
+                        simulacion.append(posicionXDefensivo);
+                        simulacion.append(posicionYDefensivo);
+                        simulacion.append(tiempoDefensivo+2);
                         cout << "\tDisparo defensivo con angulo " << i << " grados y velocidad " << v << " m/s" << endl;
                         cout << "\tse logra generar danio en X=" << posicionXDefensivo << " y Y=" << posicionYDefensivo << " en tiempo " << tiempoDefensivo+2 << " segundos." << endl << endl;
                         count++;
+                        respuesta.append(simulacion);
                         break;
                     }
                 }
@@ -141,11 +185,14 @@ void Escenario::simularDefensivos(bool protegerOfensivo)
     } else {
         cout << "Los parametros indicados no pueden hacer danio al canion defensivo" << endl;
     }
-    system("PAUSE");
+    //system("PAUSE");
+    return respuesta;
 }
 
-void Escenario::simularOfensivoEfectivo()
+QList<QList<double>> Escenario::simularOfensivoEfectivo(double velocidadO, double anguloO, double velocidadD, double anguloD )
 {
+    QList<QList<double>> respuesta;
+    QList<double> simulacion;
     double inputVelocidad, inputAngulo;
     double tiempoOfensivo, tiempoOfensivoEfectivo, tiempoDefensivo, tiempoDefensivoEfectivo,velMinInterseccion;
     int anguloIntersectado;
@@ -153,11 +200,13 @@ void Escenario::simularOfensivoEfectivo()
     bool ofensivoEfectivo = false;
     bool defensivoEfectivo = false;
     bool neutralizadorEfectivo = false;
-    cout << endl << "Por favor ingrese los parametros de configuracion de disparo ofensivo" << endl;
-    cout << "Indique la velocidad inicial (m/s) del disparo: ";
-    cin >> inputVelocidad;
-    cout << "Indique el angulo en grados del disparo: ";
-    cin >> inputAngulo;
+//    cout << endl << "Por favor ingrese los parametros de configuracion de disparo ofensivo" << endl;
+//    cout << "Indique la velocidad inicial (m/s) del disparo: ";
+//    cin >> inputVelocidad;
+//    cout << "Indique el angulo en grados del disparo: ";
+//    cin >> inputAngulo;
+    inputVelocidad = velocidadO;
+    inputAngulo = anguloO;
     Bala ofensiva = Bala(c_ofensivo.posicionX, c_ofensivo.posicionY, 0.05*distancia, inputVelocidad, inputAngulo);
     // Lo primero es saber si el disparo ofensivo con esos parametros puede hacer daño, se itera en tiempo para averiguarlo.
     for (tiempo=0.1; ; tiempo+=0.01) {
@@ -182,11 +231,13 @@ void Escenario::simularOfensivoEfectivo()
         if (tiempoOfensivoEfectivo<=2) {
             cout << endl << "No es posible defenderse de un ataque con esos parametros." << endl;
         } else {
-            cout << endl << "Por favor ingrese los parametros de configuracion de disparo defensivo" << endl;
-            cout << "Indique la velocidad inicial (m/s) del disparo: ";
-            cin >> inputVelocidad;
-            cout << "Indique el angulo en grados del disparo: ";
-            cin >> inputAngulo;
+//            cout << endl << "Por favor ingrese los parametros de configuracion de disparo defensivo" << endl;
+//            cout << "Indique la velocidad inicial (m/s) del disparo: ";
+//            cin >> inputVelocidad;
+//            cout << "Indique el angulo en grados del disparo: ";
+//            cin >> inputAngulo;
+            inputAngulo = anguloD;
+            inputVelocidad = anguloD;
             // Se crea la bala defensiva
             Bala defensiva = Bala(c_defensivo.posicionX, c_defensivo.posicionY, (0.025 * distancia), inputVelocidad, (180 - inputAngulo));
             //Se valida si los parametros defensivos si evitarian ataque.
@@ -278,5 +329,6 @@ void Escenario::simularOfensivoEfectivo()
             }
         }
     }
-    system("PAUSE");
+    //system("PAUSE");
+    return respuesta;
 }

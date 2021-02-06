@@ -4,6 +4,7 @@
 #include <mortero.h>
 #include <iostream>
 #include <cmath>
+#include <QList>
 
 
 using namespace std;
@@ -20,10 +21,11 @@ public:
     double tiempo;
     double anguloToDefensivo;
     double anguloToOfensivo;
-    void simularDefensivos(bool);
-    void simularOfensivoEfectivo();
-    void simular1();
-    void simular2();
+    QList<QList<double>> simularDefensivos(double , double ,bool);
+    QList<QList<double>> simularOfensivoEfectivo(double , double, double, double);
+    QList<QList<double>> simular1();
+    QList<QList<double>> simular2();
+    QList<QList<double>> simular34(bool , double , double);
 private:
     double g = 9.81;
     double pi = 2*acos(0.0);

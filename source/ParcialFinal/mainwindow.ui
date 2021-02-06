@@ -364,6 +364,19 @@
        <string/>
       </property>
      </widget>
+     <widget class="QLabel" name="lblSimula4">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>90</y>
+        <width>751</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>
