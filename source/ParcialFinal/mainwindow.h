@@ -1,7 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "cuerpo.h"
 #include "escenario.h"
+#include <QList>
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -17,8 +19,15 @@ public:
     ~MainWindow();
 
     Escenario * campoBatalla;
+    QGraphicsScene * escena;
+    QTimer * timeSimula;
+    cuerpo * bala1;
+    double deltaY = 500;
+    double deltaX = 100;
+    double factorConversion;
 
 private slots:
+    void mover1();
     void on_btnPunto1_pressed();
 
     void on_btnPunto2_pressed();

@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     bala.cpp \
+    cuerpo.cpp \
     escenario.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -17,6 +18,7 @@ SOURCES += \
 
 HEADERS += \
     bala.h \
+    cuerpo.h \
     escenario.h \
     mainwindow.h \
     mortero.h

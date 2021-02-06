@@ -320,6 +320,7 @@ QList<QList<double>> Mortero::validarInterseccion(Mortero *objetivo, double dela
 // Se da tiempo al usuario para que lea los resultados
 //cout << endl;
 //system("PAUSE");
+    return respuesta;
 }
 
 

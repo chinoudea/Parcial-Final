@@ -1,5 +1,8 @@
+#include "cuerpo.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+
+#include <QTimer>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -46,6 +49,19 @@ void MainWindow::on_btnPunto1_pressed()
     }
     //Para iniciar simulacion se pasa a pagina correspondiente.
     ui->stackedWidget->setCurrentIndex(1);
+    //Pintar simulacion
+    escena = new QGraphicsScene();
+    escena->setSceneRect(0,0,800,580);
+    factorConversion = 600/campoBatalla->distancia;
+    cuerpo * mortero1 = new cuerpo(10,deltaX,deltaY-(campoBatalla->c_ofensivo.posicionY*factorConversion),"morteroO");
+    cuerpo * mortero2 = new cuerpo(10,700,deltaY-(campoBatalla->c_defensivo.posicionY*factorConversion),"morteroD");
+    bala1 = new cuerpo(5,deltaX,deltaY-(campoBatalla->c_ofensivo.posicionY*factorConversion),"balaO");
+    escena->addItem(mortero1);
+    escena->addItem(mortero2);
+    timeSimula = new QTimer;
+    connect(timeSimula,SIGNAL(timeout()), this, SLOT(mover1()));
+    ui->gvSimulacion->setScene(escena);
+
 
 }
 
@@ -81,6 +97,16 @@ void MainWindow::on_btnPunto2_pressed()
     }
     //Para iniciar simulacion se pasa a pagina correspondiente.
     ui->stackedWidget->setCurrentIndex(1);
+    //Pintar simulacion
+    escena = new QGraphicsScene();
+    escena->setSceneRect(0,0,800,580);
+    factorConversion = 600/campoBatalla->distancia;
+    cuerpo * mortero1 = new cuerpo(10,deltaX,deltaY-(campoBatalla->c_ofensivo.posicionY*factorConversion),"morteroO");
+    cuerpo * mortero2 = new cuerpo(10,700,deltaY-(campoBatalla->c_defensivo.posicionY*factorConversion),"morteroD");
+    escena->addItem(mortero1);
+    escena->addItem(mortero2);
+
+    ui->gvSimulacion->setScene(escena);
 }
 
 void MainWindow::on_btnPunto3_pressed()
@@ -120,6 +146,16 @@ void MainWindow::on_btnPunto3_pressed()
     ui->lblSimula1->setText("Para un disparo de ataque con angulo "+QString::number(ui->inputAnguloOfe->value())+" y velocidad "+QString::number(ui->inputVelocidadOfe->value())+" se puede evitar el ataque con las siguientes opciones:");
     //Para iniciar simulacion se pasa a pagina correspondiente.
     ui->stackedWidget->setCurrentIndex(1);
+    //Pintar simulacion
+    escena = new QGraphicsScene();
+    escena->setSceneRect(0,0,800,580);
+    factorConversion = 600/campoBatalla->distancia;
+    cuerpo * mortero1 = new cuerpo(10,deltaX,deltaY-(campoBatalla->c_ofensivo.posicionY*factorConversion),"morteroO");
+    cuerpo * mortero2 = new cuerpo(10,700,deltaY-(campoBatalla->c_defensivo.posicionY*factorConversion),"morteroD");
+    escena->addItem(mortero1);
+    escena->addItem(mortero2);
+
+    ui->gvSimulacion->setScene(escena);
 }
 
 void MainWindow::on_btnPunto4_pressed()
@@ -159,6 +195,16 @@ void MainWindow::on_btnPunto4_pressed()
     ui->lblSimula1->setText("Para un disparo de ataque con angulo "+QString::number(ui->inputAnguloOfe->value())+" y velocidad "+QString::number(ui->inputVelocidadOfe->value())+" se puede evitar el ataque con las siguientes opciones:");
     //Para iniciar simulacion se pasa a pagina correspondiente.
     ui->stackedWidget->setCurrentIndex(1);
+    //Pintar simulacion
+    escena = new QGraphicsScene();
+    escena->setSceneRect(0,0,800,580);
+    factorConversion = 600/campoBatalla->distancia;
+    cuerpo * mortero1 = new cuerpo(10,deltaX,deltaY-(campoBatalla->c_ofensivo.posicionY*factorConversion),"morteroO");
+    cuerpo * mortero2 = new cuerpo(10,700,deltaY-(campoBatalla->c_defensivo.posicionY*factorConversion),"morteroD");
+    escena->addItem(mortero1);
+    escena->addItem(mortero2);
+
+    ui->gvSimulacion->setScene(escena);
 }
 
 void MainWindow::on_btnPunto5_pressed()
